@@ -1,6 +1,6 @@
 # ISO-3166-2 Subdivision Library
 
-A Java library that implements the ISO-3166-2 subdivision codes, inspired by and integrated with the `nv-i18n` library.
+A Java library that implements the [ISO-3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) subdivision codes ([ISO official page](https://www.iso.org/iso-3166-country-codes.html#2012_iso3166-2)), inspired by and integrated with the `nv-i18n` library.
 
 ## Usage
 
