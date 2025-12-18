@@ -6,9 +6,23 @@
   <groupId>dev.marcosalmeida</groupId>
   <artifactId>i18n</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
   <name>i18n</name>
   <url>https://github.com/mpbalmeida/i18n</url>
+  <scm>
+    <connection>scm:git:git://github.com/mpbalmeida/i18n.git</connection>
+    <developerConnection>scm:git:ssh://github.com/mpbalmeida/i18n.git</developerConnection>
+    <url>https://github.com/mpbalmeida/i18n</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
