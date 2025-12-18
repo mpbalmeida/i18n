@@ -24,5 +24,6 @@ This document outlines the rules and conventions for the ISO-3166-2 Subdivision 
 - The `README.md` should be updated when new countries are added.
 
 ## 5. Testing
-- Each new country implementation MUST have corresponding tests in `SubdivisionTest.java`.
-- Tests should verify both direct access and access via `SubdivisionCode`.
+- Each new country implementation MUST have its own test file (e.g., `SubdivisionUSTest.java`).
+- Tests should verify both direct access to constants and access via `SubdivisionCode`.
+- General `SubdivisionCode` functionality should be tested in `SubdivisionCodeTest.java`.
