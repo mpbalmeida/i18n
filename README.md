@@ -11,6 +11,7 @@ You can access subdivision constants directly from the country-specific enum cla
 ```java
 import dev.marcosalmeida.i18n.SubdivisionUS;
 import dev.marcosalmeida.i18n.SubdivisionBR;
+import dev.marcosalmeida.i18n.SubdivisionMX;
 
 // Access a specific US subdivision
 SubdivisionUS puertoRico = SubdivisionUS.PR;
@@ -20,6 +21,11 @@ System.out.println(puertoRico.getCode());     // "US-PR"
 SubdivisionBR saoPaulo = SubdivisionBR.SP;
 System.out.println(saoPaulo.getCode());       // "BR-SP"
 System.out.println(saoPaulo.getName());       // "São Paulo"
+
+// Access a specific Mexico subdivision
+SubdivisionMX mexicoCity = SubdivisionMX.CMX;
+System.out.println(mexicoCity.getCode());     // "MX-CMX"
+System.out.println(mexicoCity.getName());     // "Ciudad de México"
 ```
 
 ### Accessing via CountryCode

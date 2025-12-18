@@ -8,14 +8,19 @@ import java.util.Arrays;
  */
 public enum SubdivisionCode {
     /**
-     * United States.
-     */
-    US(CountryCode.US, SubdivisionUS.class),
-
-    /**
      * Brazil.
      */
-    BR(CountryCode.BR, SubdivisionBR.class);
+    BR(CountryCode.BR, SubdivisionBR.class),
+
+    /**
+     * Mexico.
+     */
+    MX(CountryCode.MX, SubdivisionMX.class),
+
+    /**
+     * United States.
+     */
+    US(CountryCode.US, SubdivisionUS.class);
 
     private final CountryCode countryCode;
     private final Class<? extends Subdivision> subdivisionClass;

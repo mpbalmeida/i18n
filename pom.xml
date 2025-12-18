@@ -5,7 +5,7 @@
 
   <groupId>dev.marcosalmeida</groupId>
   <artifactId>i18n</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.0.1</version>
   <packaging>jar</packaging>
 
   <name>i18n</name>
@@ -15,6 +15,14 @@
     <developerConnection>scm:git:ssh://github.com/mpbalmeida/i18n.git</developerConnection>
     <url>https://github.com/mpbalmeida/i18n</url>
   </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://central.sonatype.com</url>
+    </repository>
+  </distributionManagement>
 
   <licenses>
     <license>
@@ -102,6 +110,15 @@
         <plugin>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.6.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>0.9.0</version>
+          <extensions>true</extensions>
+          <configuration>
+            <publishingServerId>central</publishingServerId>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
