@@ -36,6 +36,10 @@ public class SubdivisionCodeTest {
         assertNotNull(it);
         assertEquals(20, it.length);
 
+        Subdivision[] nz = SubdivisionCode.getSubdivisions(CountryCode.NZ);
+        assertNotNull(nz);
+        assertEquals(17, nz.length);
+
         assertNull(SubdivisionCode.getSubdivisions(CountryCode.AF));
     }
 
@@ -107,7 +111,8 @@ public class SubdivisionCodeTest {
         assertEquals(113, allStates.length);
 
         Subdivision[] allRegions = SubdivisionCode.getRegions();
-        assertEquals(15, allRegions.length);
+        // 15 (IT) + 16 (NZ) = 31
+        assertEquals(31, allRegions.length);
 
         Subdivision[] allProvinces = SubdivisionCode.getProvinces();
         // 10 (CA) + 4 (IE) = 14

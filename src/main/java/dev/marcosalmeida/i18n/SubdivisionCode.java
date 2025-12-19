@@ -893,6 +893,130 @@ public final class SubdivisionCode {
     }
 
     /**
+     * ISO-3166-2 subdivisions for New Zealand.
+     */
+    public enum NZ implements Subdivision {
+        /** Auckland (region) */
+        AUK("NZ-AUK", "Auckland", "region"),
+        /** Bay of Plenty (region) */
+        BOP("NZ-BOP", "Bay of Plenty", "region"),
+        /** Canterbury (region) */
+        CAN("NZ-CAN", "Canterbury", "region"),
+        /** Chatham Islands Territory (special island authority) */
+        CIT("NZ-CIT", "Chatham Islands Territory", "special island authority"),
+        /** Gisborne (region) */
+        GIS("NZ-GIS", "Gisborne", "region"),
+        /** Greater Wellington (region) */
+        WGN("NZ-WGN", "Greater Wellington", "region"),
+        /** Hawke's Bay (region) */
+        HKB("NZ-HKB", "Hawke's Bay", "region"),
+        /** Manawatū-Whanganui (region) */
+        MWT("NZ-MWT", "Manawatū-Whanganui", "region"),
+        /** Marlborough (region) */
+        MBH("NZ-MBH", "Marlborough", "region"),
+        /** Nelson (region) */
+        NSN("NZ-NSN", "Nelson", "region"),
+        /** Northland (region) */
+        NTL("NZ-NTL", "Northland", "region"),
+        /** Otago (region) */
+        OTA("NZ-OTA", "Otago", "region"),
+        /** Southland (region) */
+        STL("NZ-STL", "Southland", "region"),
+        /** Taranaki (region) */
+        TKI("NZ-TKI", "Taranaki", "region"),
+        /** Tasman (region) */
+        TAS("NZ-TAS", "Tasman", "region"),
+        /** Waikato (region) */
+        WKO("NZ-WKO", "Waikato", "region"),
+        /** West Coast (region) */
+        WTC("NZ-WTC", "West Coast", "region");
+
+        private final String code;
+        private final String name;
+        private final String category;
+
+        NZ(String code, String name, String category) {
+            this.code = code;
+            this.name = name;
+            this.category = category;
+        }
+
+        @Override
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
+        /**
+         * Returns the subdivision for the given code.
+         *
+         * @param code the ISO-3166-2 code or subdivision code part.
+         * @return the subdivision.
+         * @throws IllegalArgumentException if no subdivision is found for the given code.
+         */
+        public static NZ fromCode(String code) {
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the New Zealand regions.
+         *
+         * @return an array of regions.
+         */
+        public static Subdivision[] getRegions() {
+            return SubdivisionCode.getByCategory(values(), "region");
+        }
+
+        /**
+         * Returns the New Zealand special island authorities.
+         *
+         * @return an array of special island authorities.
+         */
+        public static Subdivision[] getSpecialIslandAuthorities() {
+            return SubdivisionCode.getByCategory(values(), "special island authority");
+        }
+    }
+
+    /**
      * ISO-3166-2 subdivisions for the United States.
      */
     public enum US implements Subdivision {
@@ -1106,7 +1230,7 @@ public final class SubdivisionCode {
     }
 
     private static Subdivision[] allValues() {
-        return Stream.of(AU.values(), BR.values(), CA.values(), IE.values(), IT.values(), MX.values(), US.values())
+        return Stream.of(AU.values(), BR.values(), CA.values(), IE.values(), IT.values(), MX.values(), NZ.values(), US.values())
                 .flatMap(Arrays::stream)
                 .toArray(Subdivision[]::new);
     }
@@ -1126,6 +1250,7 @@ public final class SubdivisionCode {
             case IE -> IE.values();
             case IT -> IT.values();
             case MX -> MX.values();
+            case NZ -> NZ.values();
             case US -> US.values();
             default -> null;
         };
@@ -1183,7 +1308,10 @@ public final class SubdivisionCode {
      * @return an array of regions.
      */
     public static Subdivision[] getRegions() {
-        return IT.getRegions();
+        return Stream.concat(
+                Arrays.stream(IT.getRegions()),
+                Arrays.stream(NZ.getRegions())
+        ).toArray(Subdivision[]::new);
     }
 
     /**

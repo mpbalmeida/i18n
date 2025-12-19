@@ -30,6 +30,11 @@ Subdivision mexicoCity = SubdivisionCode.MX.CMX;
 System.out.println(mexicoCity.getCode());     // "MX-CMX"
 System.out.println(mexicoCity.getName());     // "Ciudad de México"
 
+// Access a specific New Zealand subdivision
+Subdivision auckland = SubdivisionCode.NZ.AUK;
+System.out.println(auckland.getCode());       // "NZ-AUK"
+System.out.println(auckland.getName());       // "Auckland"
+
 // Access a specific Canada subdivision
 Subdivision ontario = SubdivisionCode.CA.ON;
 System.out.println(ontario.getCode());        // "CA-ON"
