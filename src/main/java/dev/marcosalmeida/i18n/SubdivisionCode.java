@@ -493,6 +493,136 @@ public final class SubdivisionCode {
     }
 
     /**
+     * ISO-3166-2 subdivisions for Italy.
+     */
+    public enum IT implements Subdivision {
+        /** Abruzzo (region) */
+        IT_65("IT-65", "Abruzzo", "region"),
+        /** Basilicata (region) */
+        IT_77("IT-77", "Basilicata", "region"),
+        /** Calabria (region) */
+        IT_78("IT-78", "Calabria", "region"),
+        /** Campania (region) */
+        IT_72("IT-72", "Campania", "region"),
+        /** Emilia-Romagna (region) */
+        IT_45("IT-45", "Emilia-Romagna", "region"),
+        /** Friuli Venezia Giulia (autonomous region) */
+        IT_36("IT-36", "Friuli Venezia Giulia", "autonomous region"),
+        /** Lazio (region) */
+        IT_62("IT-62", "Lazio", "region"),
+        /** Liguria (region) */
+        IT_42("IT-42", "Liguria", "region"),
+        /** Lombardia (region) */
+        IT_25("IT-25", "Lombardia", "region"),
+        /** Marche (region) */
+        IT_57("IT-57", "Marche", "region"),
+        /** Molise (region) */
+        IT_67("IT-67", "Molise", "region"),
+        /** Piemonte (region) */
+        IT_21("IT-21", "Piemonte", "region"),
+        /** Puglia (region) */
+        IT_75("IT-75", "Puglia", "region"),
+        /** Sardegna (autonomous region) */
+        IT_88("IT-88", "Sardegna", "autonomous region"),
+        /** Sicilia (autonomous region) */
+        IT_82("IT-82", "Sicilia", "autonomous region"),
+        /** Toscana (region) */
+        IT_52("IT-52", "Toscana", "region"),
+        /** Trentino-Alto Adige (autonomous region) */
+        IT_32("IT-32", "Trentino-Alto Adige", "autonomous region"),
+        /** Umbria (region) */
+        IT_55("IT-55", "Umbria", "region"),
+        /** Valle d'Aosta (autonomous region) */
+        IT_23("IT-23", "Valle d'Aosta", "autonomous region"),
+        /** Veneto (region) */
+        IT_34("IT-34", "Veneto", "region");
+
+        private final String code;
+        private final String name;
+        private final String category;
+
+        IT(String code, String name, String category) {
+            this.code = code;
+            this.name = name;
+            this.category = category;
+        }
+
+        @Override
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String getSubdivisionCode() {
+            return code.substring(code.indexOf('-') + 1);
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
+        /**
+         * Returns the subdivision for the given code.
+         *
+         * @param code the ISO-3166-2 code or subdivision code part.
+         * @return the subdivision.
+         * @throws IllegalArgumentException if no subdivision is found for the given code.
+         */
+        public static IT fromCode(String code) {
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the Italian regions.
+         *
+         * @return an array of regions.
+         */
+        public static Subdivision[] getRegions() {
+            return SubdivisionCode.getByCategory(values(), "region");
+        }
+
+        /**
+         * Returns the Italian autonomous regions.
+         *
+         * @return an array of autonomous regions.
+         */
+        public static Subdivision[] getAutonomousRegions() {
+            return SubdivisionCode.getByCategory(values(), "autonomous region");
+        }
+    }
+
+    /**
      * ISO-3166-2 subdivisions for Mexico.
      */
     public enum MX implements Subdivision {
@@ -870,7 +1000,7 @@ public final class SubdivisionCode {
     }
 
     private static Subdivision[] allValues() {
-        return Stream.of(BR.values(), CA.values(), IE.values(), MX.values(), US.values())
+        return Stream.of(BR.values(), CA.values(), IE.values(), IT.values(), MX.values(), US.values())
                 .flatMap(Arrays::stream)
                 .toArray(Subdivision[]::new);
     }
@@ -887,6 +1017,7 @@ public final class SubdivisionCode {
             case BR -> BR.values();
             case CA -> CA.values();
             case IE -> IE.values();
+            case IT -> IT.values();
             case MX -> MX.values();
             case US -> US.values();
             default -> null;
@@ -934,6 +1065,15 @@ public final class SubdivisionCode {
                 Arrays.stream(BR.getStates()),
                 Stream.concat(Arrays.stream(MX.getStates()), Arrays.stream(US.getStates()))
         ).toArray(Subdivision[]::new);
+    }
+
+    /**
+     * Returns all regions across supported countries.
+     *
+     * @return an array of regions.
+     */
+    public static Subdivision[] getRegions() {
+        return IT.getRegions();
     }
 
     /**

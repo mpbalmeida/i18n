@@ -28,6 +28,10 @@ public class SubdivisionCodeTest {
         assertNotNull(ie);
         assertTrue(ie.length > 0);
 
+        Subdivision[] it = SubdivisionCode.getSubdivisions(CountryCode.IT);
+        assertNotNull(it);
+        assertEquals(20, it.length);
+
         assertNull(SubdivisionCode.getSubdivisions(CountryCode.AF));
     }
 
@@ -36,6 +40,10 @@ public class SubdivisionCodeTest {
         Subdivision usAl = SubdivisionCode.fromCode("US-AL");
         assertNotNull(usAl);
         assertEquals("Alabama", usAl.getName());
+
+        Subdivision it25 = SubdivisionCode.fromCode("IT-25");
+        assertNotNull(it25);
+        assertEquals("Lombardia", it25.getName());
 
         Subdivision caOn = SubdivisionCode.fromCode("CA-ON");
         assertNotNull(caOn);
@@ -89,6 +97,9 @@ public class SubdivisionCodeTest {
         Subdivision[] allStates = SubdivisionCode.getStates();
         // 26 (BR) + 31 (MX) + 50 (US) = 107
         assertEquals(107, allStates.length);
+
+        Subdivision[] allRegions = SubdivisionCode.getRegions();
+        assertEquals(15, allRegions.length);
 
         Subdivision[] allProvinces = SubdivisionCode.getProvinces();
         // 10 (CA) + 4 (IE) = 14

@@ -34,6 +34,11 @@ System.out.println(ontario.getName());        // "Ontario"
 Subdivision dublin = SubdivisionCode.IE.D;
 System.out.println(dublin.getCode());         // "IE-D"
 System.out.println(dublin.getName());         // "Dublin"
+
+// Access a specific Italy subdivision
+Subdivision lombardy = SubdivisionCode.IT.IT_25;
+System.out.println(lombardy.getCode());       // "IT-25"
+System.out.println(lombardy.getName());       // "Lombardia"
 ```
 
 ### Accessing via CountryCode
