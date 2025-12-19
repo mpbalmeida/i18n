@@ -71,6 +71,112 @@ public final class SubdivisionCode {
     }
 
     /**
+     * ISO-3166-2 subdivisions for Australia.
+     */
+    public enum AU implements Subdivision {
+        /** Australian Capital Territory (territory) */
+        ACT("AU-ACT", "Australian Capital Territory", "territory"),
+        /** New South Wales (state) */
+        NSW("AU-NSW", "New South Wales", "state"),
+        /** Northern Territory (territory) */
+        NT("AU-NT", "Northern Territory", "territory"),
+        /** Queensland (state) */
+        QLD("AU-QLD", "Queensland", "state"),
+        /** South Australia (state) */
+        SA("AU-SA", "South Australia", "state"),
+        /** Tasmania (state) */
+        TAS("AU-TAS", "Tasmania", "state"),
+        /** Victoria (state) */
+        VIC("AU-VIC", "Victoria", "state"),
+        /** Western Australia (state) */
+        WA("AU-WA", "Western Australia", "state");
+
+        private final String code;
+        private final String name;
+        private final String category;
+
+        AU(String code, String name, String category) {
+            this.code = code;
+            this.name = name;
+            this.category = category;
+        }
+
+        @Override
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
+        /**
+         * Returns the subdivision for the given code.
+         *
+         * @param code the ISO-3166-2 code or subdivision code part.
+         * @return the subdivision.
+         * @throws IllegalArgumentException if no subdivision is found for the given code.
+         */
+        public static AU fromCode(String code) {
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the Australian states.
+         *
+         * @return an array of states.
+         */
+        public static Subdivision[] getStates() {
+            return SubdivisionCode.getByCategory(values(), "state");
+        }
+
+        /**
+         * Returns the Australian territories.
+         *
+         * @return an array of territories.
+         */
+        public static Subdivision[] getTerritories() {
+            return SubdivisionCode.getByCategory(values(), "territory");
+        }
+    }
+
+    /**
      * ISO-3166-2 subdivisions for Brazil.
      */
     public enum BR implements Subdivision {
@@ -1000,7 +1106,7 @@ public final class SubdivisionCode {
     }
 
     private static Subdivision[] allValues() {
-        return Stream.of(BR.values(), CA.values(), IE.values(), IT.values(), MX.values(), US.values())
+        return Stream.of(AU.values(), BR.values(), CA.values(), IE.values(), IT.values(), MX.values(), US.values())
                 .flatMap(Arrays::stream)
                 .toArray(Subdivision[]::new);
     }
@@ -1014,6 +1120,7 @@ public final class SubdivisionCode {
     public static Subdivision[] getSubdivisions(CountryCode code) {
         if (code == null) return null;
         return switch (code) {
+            case AU -> AU.values();
             case BR -> BR.values();
             case CA -> CA.values();
             case IE -> IE.values();
@@ -1062,8 +1169,11 @@ public final class SubdivisionCode {
      */
     public static Subdivision[] getStates() {
         return Stream.concat(
-                Arrays.stream(BR.getStates()),
-                Stream.concat(Arrays.stream(MX.getStates()), Arrays.stream(US.getStates()))
+                Arrays.stream(AU.getStates()),
+                Stream.concat(
+                        Arrays.stream(BR.getStates()),
+                        Stream.concat(Arrays.stream(MX.getStates()), Arrays.stream(US.getStates()))
+                )
         ).toArray(Subdivision[]::new);
     }
 

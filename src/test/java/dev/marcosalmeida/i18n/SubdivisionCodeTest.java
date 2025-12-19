@@ -8,6 +8,10 @@ public class SubdivisionCodeTest {
 
     @Test
     public void testGetSubdivisions() {
+        Subdivision[] au = SubdivisionCode.getSubdivisions(CountryCode.AU);
+        assertNotNull(au);
+        assertEquals(8, au.length);
+
         Subdivision[] us = SubdivisionCode.getSubdivisions(CountryCode.US);
         assertNotNull(us);
         assertTrue(us.length > 0);
@@ -37,6 +41,10 @@ public class SubdivisionCodeTest {
 
     @Test
     public void testFromCode() {
+        Subdivision auNsw = SubdivisionCode.fromCode("AU-NSW");
+        assertNotNull(auNsw);
+        assertEquals("New South Wales", auNsw.getName());
+
         Subdivision usAl = SubdivisionCode.fromCode("US-AL");
         assertNotNull(usAl);
         assertEquals("Alabama", usAl.getName());
@@ -95,8 +103,8 @@ public class SubdivisionCodeTest {
     @Test
     public void testGlobalFiltering() {
         Subdivision[] allStates = SubdivisionCode.getStates();
-        // 26 (BR) + 31 (MX) + 50 (US) = 107
-        assertEquals(107, allStates.length);
+        // 6 (AU) + 26 (BR) + 31 (MX) + 50 (US) = 113
+        assertEquals(113, allStates.length);
 
         Subdivision[] allRegions = SubdivisionCode.getRegions();
         assertEquals(15, allRegions.length);

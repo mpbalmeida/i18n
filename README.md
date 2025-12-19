@@ -15,6 +15,11 @@ import dev.marcosalmeida.i18n.SubdivisionCode;
 Subdivision alabama = SubdivisionCode.US.AL;
 System.out.println(alabama.getCode());     // "US-AL"
 
+// Access a specific Australia subdivision
+Subdivision nsw = SubdivisionCode.AU.NSW;
+System.out.println(nsw.getCode());         // "AU-NSW"
+System.out.println(nsw.getName());         // "New South Wales"
+
 // Access a specific Brazil subdivision
 Subdivision saoPaulo = SubdivisionCode.BR.SP;
 System.out.println(saoPaulo.getCode());       // "BR-SP"
