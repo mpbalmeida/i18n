@@ -20,20 +20,72 @@ public class SubdivisionCodeTest {
         assertNotNull(mx);
         assertTrue(mx.length > 0);
 
+        Subdivision[] ie = SubdivisionCode.getSubdivisions(CountryCode.IE);
+        assertNotNull(ie);
+        assertTrue(ie.length > 0);
+
         assertNull(SubdivisionCode.getSubdivisions(CountryCode.AF));
     }
 
     @Test
     public void testFromCode() {
-        Subdivision al = SubdivisionCode.fromCode("US-AL");
-        assertNotNull(al);
-        assertEquals("Alabama", al.getName());
+        Subdivision usAl = SubdivisionCode.fromCode("US-AL");
+        assertNotNull(usAl);
+        assertEquals("Alabama", usAl.getName());
 
-        Subdivision sp = SubdivisionCode.fromCode("BR-SP");
-        assertNotNull(sp);
-        assertEquals("São Paulo", sp.getName());
+        Subdivision brSp = SubdivisionCode.fromCode("BR-SP");
+        assertNotNull(brSp);
+        assertEquals("São Paulo", brSp.getName());
+
+        Subdivision ieD = SubdivisionCode.fromCode("IE-D");
+        assertNotNull(ieD);
+        assertEquals("Dublin", ieD.getName());
+
+        // Test lookup by subdivision part (returns the first match, which is BR-AL for "AL")
+        Subdivision alShort = SubdivisionCode.fromCode("AL");
+        assertNotNull(alShort);
+        assertEquals("BR-AL", alShort.getCode());
 
         assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.fromCode("INVALID"));
         assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.fromCode("US-XX"));
+    }
+
+    @Test
+    public void testFromName() {
+        Subdivision alabama = SubdivisionCode.fromName("Alabama").orElseThrow();
+        assertEquals("US-AL", alabama.getCode());
+
+        Subdivision saoPaulo = SubdivisionCode.fromName("são paulo").orElseThrow();
+        assertEquals("BR-SP", saoPaulo.getCode());
+
+        assertTrue(SubdivisionCode.fromName("Invalid").isEmpty());
+    }
+
+    @Test
+    public void testFind() {
+        // "AL" matches BR-AL first because BR is before US in the Stream
+        Subdivision al = SubdivisionCode.find("AL").orElseThrow();
+        assertEquals("BR-AL", al.getCode());
+
+        Subdivision spFull = SubdivisionCode.find("BR-SP").orElseThrow();
+        assertEquals("BR-SP", spFull.getCode());
+
+        Subdivision mexico = SubdivisionCode.find("México").orElseThrow();
+        assertEquals("MX-MEX", mexico.getCode());
+
+        assertTrue(SubdivisionCode.find("Invalid").isEmpty());
+    }
+
+    @Test
+    public void testGlobalFiltering() {
+        Subdivision[] allStates = SubdivisionCode.getStates();
+        // 26 (BR) + 31 (MX) + 50 (US) = 107
+        assertEquals(107, allStates.length);
+
+        Subdivision[] allProvinces = SubdivisionCode.getProvinces();
+        assertEquals(4, allProvinces.length);
+
+        Subdivision[] allCounties = SubdivisionCode.getCounties();
+        assertEquals(26, allCounties.length);
     }
 }

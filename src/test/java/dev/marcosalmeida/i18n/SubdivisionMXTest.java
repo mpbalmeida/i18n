@@ -36,6 +36,45 @@ public class SubdivisionMXTest {
         SubdivisionCode.MX agu = SubdivisionCode.MX.fromCode("MX-AGU");
         assertEquals(SubdivisionCode.MX.AGU, agu);
 
+        // Test lookup by subdivision part
+        SubdivisionCode.MX zac = SubdivisionCode.MX.fromCode("ZAC");
+        assertEquals(SubdivisionCode.MX.ZAC, zac);
+
         assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.MX.fromCode("INVALID"));
+    }
+
+    @Test
+    public void testFromName() {
+        Subdivision aguascalientes = SubdivisionCode.MX.fromName("Aguascalientes").orElseThrow();
+        assertEquals(SubdivisionCode.MX.AGU, aguascalientes);
+
+        Subdivision zacatecas = SubdivisionCode.MX.fromName("zacatecas").orElseThrow();
+        assertEquals(SubdivisionCode.MX.ZAC, zacatecas);
+
+        assertTrue(SubdivisionCode.MX.fromName("Invalid").isEmpty());
+    }
+
+    @Test
+    public void testFind() {
+        Subdivision zac = SubdivisionCode.MX.find("ZAC").orElseThrow();
+        assertEquals(SubdivisionCode.MX.ZAC, zac);
+
+        Subdivision zacFull = SubdivisionCode.MX.find("MX-ZAC").orElseThrow();
+        assertEquals(SubdivisionCode.MX.ZAC, zacFull);
+
+        Subdivision zacatecas = SubdivisionCode.MX.find("Zacatecas").orElseThrow();
+        assertEquals(SubdivisionCode.MX.ZAC, zacatecas);
+
+        assertTrue(SubdivisionCode.MX.find("Invalid").isEmpty());
+    }
+
+    @Test
+    public void testFiltering() {
+        Subdivision[] states = SubdivisionCode.MX.getStates();
+        assertEquals(31, states.length);
+
+        Subdivision[] federalEntities = SubdivisionCode.MX.getFederalEntities();
+        assertEquals(1, federalEntities.length);
+        assertEquals(SubdivisionCode.MX.CMX, federalEntities[0]);
     }
 }

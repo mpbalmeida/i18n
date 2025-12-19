@@ -1,5 +1,7 @@
 package dev.marcosalmeida.i18n;
 
+import java.util.Optional;
+
 /**
  * Interface representing an ISO-3166-2 subdivision.
  */
@@ -24,4 +26,20 @@ public interface Subdivision {
      * @return the subdivision category.
      */
     String getCategory();
+
+    /**
+     * Returns the subdivision part of the ISO-3166-2 code (e.g., "AL" from "US-AL").
+     *
+     * @return the subdivision code part.
+     */
+    String getSubdivisionCode();
+
+    /**
+     * Returns the parent subdivision, if any.
+     *
+     * @return an Optional containing the parent subdivision, or empty if none.
+     */
+    default Optional<Subdivision> getParent() {
+        return Optional.empty();
+    }
 }

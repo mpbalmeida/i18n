@@ -6,20 +6,24 @@ This document outlines the rules and conventions for the ISO-3166-2 Subdivision 
 - Acts as the entry point for all subdivisions.
 - Country-specific subdivisions are implemented as public nested enums (e.g., `SubdivisionCode.US`).
 - Nested enums MUST be named using the 2-letter ISO country code (BR, MX, US, etc.) and sorted alphabetically in the file.
-- Provides `getSubdivisions(CountryCode)` and `fromCode(String)` utility methods.
+ - Provides `getSubdivisions(CountryCode)`, `fromCode(String)`, `fromName(String)`, `find(String)`, `getStates()`, `getProvinces()`, `getCounties()`, and `getByParent(Subdivision)` utility methods.
 
 ## 2. Country-Specific Subdivision Enums
 - MUST be public nested enums inside `SubdivisionCode` to ensure external accessibility of constants.
 - MUST implement the `Subdivision` interface.
 - Constants MUST use the shortened key from the ISO-3166-2 code (e.g., `AL` for `US-AL`).
 - Javadoc documentation is required for each constant.
-- MUST provide a static `fromCode(String)` method.
+- MUST provide static `fromCode(String)`, `fromName(String)`, `find(String)`, and `getByParent(Subdivision)` methods.
+- MUST provide specific filtering methods instead of a generic `getByCategory` (e.g., `getStates()`, `getCounties()`).
+- Internal generic filtering by category string should be handled via a private helper.
 
 ## 3. `Subdivision` Interface
 - Provides a polymorphic way to access subdivision data:
     - `getCode()`: Full ISO-3166-2 code (e.g., "US-AL").
+    - `getSubdivisionCode()`: Subdivision part of the code (e.g., "AL").
     - `getName()`: Local/English name.
     - `getCategory()`: Subdivision category (e.g., "State", "Province").
+    - `getParent()`: Returns an `Optional<Subdivision>` representing the parent subdivision.
 
 ## 4. Documentation
 - All public classes, interfaces, enums, and methods MUST have clear Javadoc.

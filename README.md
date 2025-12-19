@@ -24,6 +24,11 @@ System.out.println(saoPaulo.getName());       // "São Paulo"
 Subdivision mexicoCity = SubdivisionCode.MX.CMX;
 System.out.println(mexicoCity.getCode());     // "MX-CMX"
 System.out.println(mexicoCity.getName());     // "Ciudad de México"
+
+// Access a specific Ireland subdivision
+Subdivision dublin = SubdivisionCode.IE.D;
+System.out.println(dublin.getCode());         // "IE-D"
+System.out.println(dublin.getName());         // "Dublin"
 ```
 
 ### Accessing via CountryCode
@@ -44,19 +49,71 @@ if (subdivisions != null) {
 }
 ```
 
-### Looking up by ISO-3166-2 code
+### Looking up subdivisions
 
-You can look up subdivisions using their full ISO-3166-2 code (e.g., "US-AL").
+You can look up subdivisions by their full ISO-3166-2 code, their subdivision part, or their name.
 
 ```java
 import dev.marcosalmeida.i18n.SubdivisionCode;
 import dev.marcosalmeida.i18n.Subdivision;
+import java.util.Optional;
 
-// Look up across all countries
+// Look up across all countries by full code
 Subdivision al = SubdivisionCode.fromCode("US-AL");
 
 // Look up within a specific country
 Subdivision sp = SubdivisionCode.BR.fromCode("BR-SP");
+
+// Look up by subdivision part (e.g., "AL")
+Subdivision alShort = SubdivisionCode.US.fromCode("AL");
+
+// Look up by name
+Optional<Subdivision> california = SubdivisionCode.US.fromName("California");
+
+// Unified lookup (tries code then name)
+Optional<Subdivision> ny = SubdivisionCode.US.find("New York");
+Optional<Subdivision> caPart = SubdivisionCode.US.find("CA");
+```
+
+### Getting the subdivision code part
+
+You can extract the subdivision part of the ISO-3166-2 code (e.g., "AL" from "US-AL").
+
+```java
+Subdivision alabama = SubdivisionCode.US.AL;
+System.out.println(alabama.getSubdivisionCode()); // "AL"
+```
+
+### Parent-Child Relationships
+
+The library supports hierarchical relationships between subdivisions (e.g., Irish counties belonging to provinces).
+
+```java
+import dev.marcosalmeida.i18n.SubdivisionCode;
+import dev.marcosalmeida.i18n.Subdivision;
+import java.util.Optional;
+
+Subdivision dublin = SubdivisionCode.IE.D;
+Optional<Subdivision> parent = dublin.getParent();
+if (parent.isPresent()) {
+    System.out.println("Parent: " + parent.get().getName()); // "Leinster"
+}
+```
+
+### Filtering subdivisions
+
+You can filter subdivisions by category or parent.
+
+```java
+// Get all provinces in Ireland
+Subdivision[] provinces = SubdivisionCode.IE.getProvinces();
+
+// Get all counties in a specific province
+Subdivision leinster = SubdivisionCode.IE.L;
+Subdivision[] countiesInLeinster = SubdivisionCode.IE.getByParent(leinster);
+
+// Global filtering across all countries
+Subdivision[] allStates = SubdivisionCode.getStates();
 ```
 
 ### Core Interface
@@ -65,9 +122,10 @@ All subdivision enums implement the `Subdivision` interface:
 
 ```java
 public interface Subdivision {
-    String getCode();     // Returns the full ISO-3166-2 code (e.g., "US-AL")
-    String getName();     // Returns the English name
-    String getCategory(); // Returns the category (e.g., "State", "District")
+    String getCode();            // Returns the full ISO-3166-2 code (e.g., "US-AL")
+    String getSubdivisionCode(); // Returns the subdivision part (e.g., "AL")
+    String getName();            // Returns the local/English name
+    String getCategory();        // Returns the category (e.g., "State", "District")
 }
 ```
 

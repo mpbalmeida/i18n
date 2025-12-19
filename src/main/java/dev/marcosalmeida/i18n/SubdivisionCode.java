@@ -2,6 +2,7 @@ package dev.marcosalmeida.i18n;
 
 import com.neovisionaries.i18n.CountryCode;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -16,6 +17,57 @@ public final class SubdivisionCode {
 
     private SubdivisionCode() {
         // Prevent instantiation
+    }
+
+    private static <T extends Subdivision> T fromCode(T[] values, String code) {
+        if (code == null || code.isEmpty()) {
+            throw new IllegalArgumentException("Invalid subdivision code: " + code);
+        }
+        return Arrays.stream(values)
+                .filter(s -> s.getCode().equalsIgnoreCase(code) || s.getSubdivisionCode().equalsIgnoreCase(code))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No subdivision found for code: " + code));
+    }
+
+    private static <T extends Subdivision> Optional<Subdivision> fromName(T[] values, String name) {
+        if (name == null || name.isBlank()) {
+            return Optional.empty();
+        }
+        String normalized = name.trim();
+        return Arrays.stream(values)
+                .filter(s -> s.getName().equalsIgnoreCase(normalized))
+                .map(Subdivision.class::cast)
+                .findFirst();
+    }
+
+    private static <T extends Subdivision> Optional<Subdivision> find(T[] values, String value) {
+        if (value == null || value.isBlank()) {
+            return Optional.empty();
+        }
+
+        try {
+            return Optional.of(fromCode(values, value));
+        } catch (IllegalArgumentException e) {
+            return fromName(values, value);
+        }
+    }
+
+    private static <T extends Subdivision> Subdivision[] getByCategory(T[] values, String category) {
+        if (category == null || category.isBlank()) {
+            return new Subdivision[0];
+        }
+        return Arrays.stream(values)
+                .filter(s -> s.getCategory().equalsIgnoreCase(category))
+                .toArray(Subdivision[]::new);
+    }
+
+    private static <T extends Subdivision> Subdivision[] getByParent(T[] values, Subdivision parent) {
+        if (parent == null) {
+            return new Subdivision[0];
+        }
+        return Arrays.stream(values)
+                .filter(s -> s.getParent().map(p -> p.equals(parent)).orElse(false))
+                .toArray(Subdivision[]::new);
     }
 
     /**
@@ -102,18 +154,225 @@ public final class SubdivisionCode {
             return category;
         }
 
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
         /**
          * Returns the subdivision for the given code.
          *
-         * @param code the ISO-3166-2 code.
+         * @param code the ISO-3166-2 code or subdivision code part.
          * @return the subdivision.
          * @throws IllegalArgumentException if no subdivision is found for the given code.
          */
         public static BR fromCode(String code) {
-            return Arrays.stream(values())
-                    .filter(s -> s.code.equalsIgnoreCase(code))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("No subdivision found for code: " + code));
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the Brazilian states.
+         *
+         * @return an array of states.
+         */
+        public static Subdivision[] getStates() {
+            return SubdivisionCode.getByCategory(values(), "state");
+        }
+
+        /**
+         * Returns the Brazilian federal districts.
+         *
+         * @return an array of federal districts.
+         */
+        public static Subdivision[] getFederalDistricts() {
+            return SubdivisionCode.getByCategory(values(), "federal district");
+        }
+    }
+
+    /**
+     * ISO-3166-2 subdivisions for Ireland.
+     */
+    public enum IE implements Subdivision {
+        /** Connaught (province) */
+        C("IE-C", "Connaught", "province", null),
+        /** Leinster (province) */
+        L("IE-L", "Leinster", "province", null),
+        /** Munster (province) */
+        M("IE-M", "Munster", "province", null),
+        /** Ulster (province) */
+        U("IE-U", "Ulster", "province", null),
+        /** Carlow (county) */
+        CW("IE-CW", "Carlow", "county", L),
+        /** Cavan (county) */
+        CN("IE-CN", "Cavan", "county", U),
+        /** Clare (county) */
+        CE("IE-CE", "Clare", "county", M),
+        /** Cork (county) */
+        CO("IE-CO", "Cork", "county", M),
+        /** Donegal (county) */
+        DL("IE-DL", "Donegal", "county", U),
+        /** Dublin (county) */
+        D("IE-D", "Dublin", "county", L),
+        /** Galway (county) */
+        G("IE-G", "Galway", "county", C),
+        /** Kerry (county) */
+        KY("IE-KY", "Kerry", "county", M),
+        /** Kildare (county) */
+        KE("IE-KE", "Kildare", "county", L),
+        /** Kilkenny (county) */
+        KK("IE-KK", "Kilkenny", "county", L),
+        /** Laois (county) */
+        LS("IE-LS", "Laois", "county", L),
+        /** Leitrim (county) */
+        LM("IE-LM", "Leitrim", "county", C),
+        /** Limerick (county) */
+        LK("IE-LK", "Limerick", "county", M),
+        /** Longford (county) */
+        LD("IE-LD", "Longford", "county", L),
+        /** Louth (county) */
+        LH("IE-LH", "Louth", "county", L),
+        /** Mayo (county) */
+        MO("IE-MO", "Mayo", "county", C),
+        /** Meath (county) */
+        MH("IE-MH", "Meath", "county", L),
+        /** Monaghan (county) */
+        MN("IE-MN", "Monaghan", "county", U),
+        /** Offaly (county) */
+        OY("IE-OY", "Offaly", "county", L),
+        /** Roscommon (county) */
+        RN("IE-RN", "Roscommon", "county", C),
+        /** Sligo (county) */
+        SO("IE-SO", "Sligo", "county", C),
+        /** Tipperary (county) */
+        TA("IE-TA", "Tipperary", "county", M),
+        /** Waterford (county) */
+        WD("IE-WD", "Waterford", "county", M),
+        /** Westmeath (county) */
+        WH("IE-WH", "Westmeath", "county", L),
+        /** Wexford (county) */
+        WX("IE-WX", "Wexford", "county", L),
+        /** Wicklow (county) */
+        WW("IE-WW", "Wicklow", "county", L);
+
+        private final String code;
+        private final String name;
+        private final String category;
+        private final IE parent;
+
+        IE(String code, String name, String category, IE parent) {
+            this.code = code;
+            this.name = name;
+            this.category = category;
+            this.parent = parent;
+        }
+
+        @Override
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.ofNullable(parent);
+        }
+
+        /**
+         * Returns the subdivision for the given code.
+         *
+         * @param code the ISO-3166-2 code or subdivision code part.
+         * @return the subdivision.
+         * @throws IllegalArgumentException if no subdivision is found for the given code.
+         */
+        public static IE fromCode(String code) {
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the Irish provinces.
+         *
+         * @return an array of provinces.
+         */
+        public static Subdivision[] getProvinces() {
+            return SubdivisionCode.getByCategory(values(), "province");
+        }
+
+        /**
+         * Returns the Irish counties.
+         *
+         * @return an array of counties.
+         */
+        public static Subdivision[] getCounties() {
+            return SubdivisionCode.getByCategory(values(), "county");
+        }
+
+        /**
+         * Returns the subdivisions for the given parent.
+         *
+         * @param parent the parent subdivision.
+         * @return an array of subdivisions belonging to the parent.
+         */
+        public static Subdivision[] getByParent(Subdivision parent) {
+            return SubdivisionCode.getByParent(values(), parent);
         }
     }
 
@@ -211,18 +470,73 @@ public final class SubdivisionCode {
             return category;
         }
 
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
         /**
          * Returns the subdivision for the given code.
          *
-         * @param code the ISO-3166-2 code.
+         * @param code the ISO-3166-2 code or subdivision code part.
          * @return the subdivision.
          * @throws IllegalArgumentException if no subdivision is found for the given code.
          */
         public static MX fromCode(String code) {
-            return Arrays.stream(values())
-                    .filter(s -> s.code.equalsIgnoreCase(code))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("No subdivision found for code: " + code));
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the Mexican states.
+         *
+         * @return an array of states.
+         */
+        public static Subdivision[] getStates() {
+            return SubdivisionCode.getByCategory(values(), "state");
+        }
+
+        /**
+         * Returns the Mexican federal entities.
+         *
+         * @return an array of federal entities.
+         */
+        public static Subdivision[] getFederalEntities() {
+            return SubdivisionCode.getByCategory(values(), "federal entity");
+        }
+
+        /**
+         * Returns the subdivisions for the given parent.
+         *
+         * @param parent the parent subdivision.
+         * @return an array of subdivisions belonging to the parent.
+         */
+        public static Subdivision[] getByParent(Subdivision parent) {
+            return SubdivisionCode.getByParent(values(), parent);
         }
     }
 
@@ -370,19 +684,79 @@ public final class SubdivisionCode {
             return category;
         }
 
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
         /**
          * Returns the subdivision for the given code.
          *
-         * @param code the ISO-3166-2 code.
+         * @param code the ISO-3166-2 code or subdivision code part.
          * @return the subdivision.
          * @throws IllegalArgumentException if no subdivision is found for the given code.
          */
         public static US fromCode(String code) {
-            return Arrays.stream(values())
-                    .filter(s -> s.code.equalsIgnoreCase(code))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("No subdivision found for code: " + code));
+            return SubdivisionCode.fromCode(values(), code);
         }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the US states.
+         *
+         * @return an array of states.
+         */
+        public static Subdivision[] getStates() {
+            return SubdivisionCode.getByCategory(values(), "State");
+        }
+
+        /**
+         * Returns the US districts.
+         *
+         * @return an array of districts.
+         */
+        public static Subdivision[] getDistricts() {
+            return SubdivisionCode.getByCategory(values(), "District");
+        }
+
+        /**
+         * Returns the US outlying areas.
+         *
+         * @return an array of outlying areas.
+         */
+        public static Subdivision[] getOutlyingAreas() {
+            return SubdivisionCode.getByCategory(values(), "Outlying area");
+        }
+    }
+
+    private static Subdivision[] allValues() {
+        return Stream.of(BR.values(), IE.values(), MX.values(), US.values())
+                .flatMap(Arrays::stream)
+                .toArray(Subdivision[]::new);
     }
 
     /**
@@ -395,6 +769,7 @@ public final class SubdivisionCode {
         if (code == null) return null;
         return switch (code) {
             case BR -> BR.values();
+            case IE -> IE.values();
             case MX -> MX.values();
             case US -> US.values();
             default -> null;
@@ -409,14 +784,66 @@ public final class SubdivisionCode {
      * @throws IllegalArgumentException if the code is invalid or not supported.
      */
     public static Subdivision fromCode(String code) {
-        if (code == null || code.length() < 3) {
-            throw new IllegalArgumentException("Invalid subdivision code: " + code);
-        }
+        return fromCode(allValues(), code);
+    }
 
-        return Stream.of(BR.values(), MX.values(), US.values())
-                .flatMap(Arrays::stream)
-                .filter(s -> s.getCode().equalsIgnoreCase(code))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No subdivision found for code: " + code));
+    /**
+     * Returns the subdivision for the given name.
+     *
+     * @param name the subdivision name.
+     * @return an Optional containing the subdivision if found, or empty otherwise.
+     */
+    public static Optional<Subdivision> fromName(String name) {
+        return fromName(allValues(), name);
+    }
+
+    /**
+     * Returns the subdivision for the given value, searching by code or name across all countries.
+     *
+     * @param value the code or name.
+     * @return an Optional containing the subdivision if found, or empty otherwise.
+     */
+    public static Optional<Subdivision> find(String value) {
+        return find(allValues(), value);
+    }
+
+    /**
+     * Returns all states across supported countries.
+     *
+     * @return an array of states.
+     */
+    public static Subdivision[] getStates() {
+        return Stream.concat(
+                Arrays.stream(BR.getStates()),
+                Stream.concat(Arrays.stream(MX.getStates()), Arrays.stream(US.getStates()))
+        ).toArray(Subdivision[]::new);
+    }
+
+    /**
+     * Returns all provinces across supported countries.
+     *
+     * @return an array of provinces.
+     */
+    public static Subdivision[] getProvinces() {
+        return IE.getProvinces();
+    }
+
+    /**
+     * Returns all counties across supported countries.
+     *
+     * @return an array of counties.
+     */
+    public static Subdivision[] getCounties() {
+        return IE.getCounties();
+    }
+
+    /**
+     * Returns the subdivisions for the given parent across all countries.
+     *
+     * @param parent the parent subdivision.
+     * @return an array of subdivisions belonging to the parent.
+     */
+    public static Subdivision[] getByParent(Subdivision parent) {
+        return getByParent(allValues(), parent);
     }
 }

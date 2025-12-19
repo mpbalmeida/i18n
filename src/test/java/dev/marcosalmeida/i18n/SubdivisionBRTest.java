@@ -36,6 +36,45 @@ public class SubdivisionBRTest {
         SubdivisionCode.BR ac = SubdivisionCode.BR.fromCode("BR-AC");
         assertEquals(SubdivisionCode.BR.AC, ac);
 
+        // Test lookup by subdivision part
+        SubdivisionCode.BR sp = SubdivisionCode.BR.fromCode("SP");
+        assertEquals(SubdivisionCode.BR.SP, sp);
+
         assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.BR.fromCode("INVALID"));
+    }
+
+    @Test
+    public void testFromName() {
+        Subdivision acre = SubdivisionCode.BR.fromName("Acre").orElseThrow();
+        assertEquals(SubdivisionCode.BR.AC, acre);
+
+        Subdivision saoPaulo = SubdivisionCode.BR.fromName("são paulo").orElseThrow();
+        assertEquals(SubdivisionCode.BR.SP, saoPaulo);
+
+        assertTrue(SubdivisionCode.BR.fromName("Invalid").isEmpty());
+    }
+
+    @Test
+    public void testFind() {
+        Subdivision sp = SubdivisionCode.BR.find("SP").orElseThrow();
+        assertEquals(SubdivisionCode.BR.SP, sp);
+
+        Subdivision spFull = SubdivisionCode.BR.find("BR-SP").orElseThrow();
+        assertEquals(SubdivisionCode.BR.SP, spFull);
+
+        Subdivision saoPaulo = SubdivisionCode.BR.find("São Paulo").orElseThrow();
+        assertEquals(SubdivisionCode.BR.SP, saoPaulo);
+
+        assertTrue(SubdivisionCode.BR.find("Invalid").isEmpty());
+    }
+
+    @Test
+    public void testFiltering() {
+        Subdivision[] states = SubdivisionCode.BR.getStates();
+        assertEquals(26, states.length);
+
+        Subdivision[] federalDistricts = SubdivisionCode.BR.getFederalDistricts();
+        assertEquals(1, federalDistricts.length);
+        assertEquals(SubdivisionCode.BR.DF, federalDistricts[0]);
     }
 }
