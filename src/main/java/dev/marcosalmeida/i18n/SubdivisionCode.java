@@ -21,7 +21,7 @@ public final class SubdivisionCode {
     /**
      * ISO-3166-2 subdivisions for Brazil.
      */
-    enum BR implements Subdivision {
+    public enum BR implements Subdivision {
         /** Acre (state) */
         AC("BR-AC", "Acre", "state"),
         /** Alagoas (state) */
@@ -120,7 +120,7 @@ public final class SubdivisionCode {
     /**
      * ISO-3166-2 subdivisions for Mexico.
      */
-    enum MX implements Subdivision {
+    public enum MX implements Subdivision {
         /** Aguascalientes (state) */
         AGU("MX-AGU", "Aguascalientes", "state"),
         /** Baja California (state) */
@@ -229,7 +229,7 @@ public final class SubdivisionCode {
     /**
      * ISO-3166-2 subdivisions for the United States.
      */
-    enum US implements Subdivision {
+    public enum US implements Subdivision {
         /** Alabama (State) */
         AL("US-AL", "Alabama", "State"),
         /** Alaska (State) */

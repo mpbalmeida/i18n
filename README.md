@@ -73,7 +73,7 @@ public interface Subdivision {
 
 ## Features
 
-- **Encapsulated Design**: Uses an interface to provide polymorphic access while keeping specific country enums separate.
+- **Public Access**: Uses nested enums to provide direct access to subdivision constants while keeping them grouped by country.
 - **`nv-i18n` Integration**: Easily find subdivisions using established `CountryCode` constants.
 - **Shortened Keys**: Enum constants use the subdivision part of the code (e.g., `PR`) for a cleaner API.
 

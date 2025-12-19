@@ -4,12 +4,12 @@ This document outlines the rules and conventions for the ISO-3166-2 Subdivision 
 
 ## 1. `SubdivisionCode` Class
 - Acts as the entry point for all subdivisions.
-- Country-specific subdivisions are implemented as package-private nested enums (e.g., `SubdivisionCode.US`).
+- Country-specific subdivisions are implemented as public nested enums (e.g., `SubdivisionCode.US`).
 - Nested enums MUST be named using the 2-letter ISO country code (BR, MX, US, etc.) and sorted alphabetically in the file.
 - Provides `getSubdivisions(CountryCode)` and `fromCode(String)` utility methods.
 
 ## 2. Country-Specific Subdivision Enums
-- MUST be package-private nested enums inside `SubdivisionCode` to encourage access via the parent class.
+- MUST be public nested enums inside `SubdivisionCode` to ensure external accessibility of constants.
 - MUST implement the `Subdivision` interface.
 - Constants MUST use the shortened key from the ISO-3166-2 code (e.g., `AL` for `US-AL`).
 - Javadoc documentation is required for each constant.
