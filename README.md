@@ -6,24 +6,22 @@ A Java library that implements the [ISO-3166-2](https://en.wikipedia.org/wiki/IS
 
 ### Direct access to subdivisions
 
-You can access subdivision constants directly from the country-specific enum classes (e.g., `SubdivisionUS`, `SubdivisionBR`).
+You can access subdivision constants directly from the `SubdivisionCode` class.
 
 ```java
-import dev.marcosalmeida.i18n.SubdivisionUS;
-import dev.marcosalmeida.i18n.SubdivisionBR;
-import dev.marcosalmeida.i18n.SubdivisionMX;
+import dev.marcosalmeida.i18n.SubdivisionCode;
 
 // Access a specific US subdivision
-SubdivisionUS puertoRico = SubdivisionUS.PR;
-System.out.println(puertoRico.getCode());     // "US-PR"
+Subdivision alabama = SubdivisionCode.US.AL;
+System.out.println(alabama.getCode());     // "US-AL"
 
 // Access a specific Brazil subdivision
-SubdivisionBR saoPaulo = SubdivisionBR.SP;
+Subdivision saoPaulo = SubdivisionCode.BR.SP;
 System.out.println(saoPaulo.getCode());       // "BR-SP"
 System.out.println(saoPaulo.getName());       // "São Paulo"
 
 // Access a specific Mexico subdivision
-SubdivisionMX mexicoCity = SubdivisionMX.CMX;
+Subdivision mexicoCity = SubdivisionCode.MX.CMX;
 System.out.println(mexicoCity.getCode());     // "MX-CMX"
 System.out.println(mexicoCity.getName());     // "Ciudad de México"
 ```
@@ -38,13 +36,27 @@ import dev.marcosalmeida.i18n.SubdivisionCode;
 import dev.marcosalmeida.i18n.Subdivision;
 
 // Get all subdivisions for a country
-SubdivisionCode usCode = SubdivisionCode.getByCountryCode(CountryCode.US);
-if (usCode != null) {
-    Subdivision[] subdivisions = usCode.getSubdivisions();
+Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(CountryCode.US);
+if (subdivisions != null) {
     for (Subdivision s : subdivisions) {
         System.out.println(s.getCode() + ": " + s.getName());
     }
 }
+```
+
+### Looking up by ISO-3166-2 code
+
+You can look up subdivisions using their full ISO-3166-2 code (e.g., "US-AL").
+
+```java
+import dev.marcosalmeida.i18n.SubdivisionCode;
+import dev.marcosalmeida.i18n.Subdivision;
+
+// Look up across all countries
+Subdivision al = SubdivisionCode.fromCode("US-AL");
+
+// Look up within a specific country
+Subdivision sp = SubdivisionCode.BR.fromCode("BR-SP");
 ```
 
 ### Core Interface

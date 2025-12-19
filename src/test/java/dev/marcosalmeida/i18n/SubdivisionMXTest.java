@@ -7,12 +7,12 @@ public class SubdivisionMXTest {
 
     @Test
     public void testMXSubdivisions() {
-        SubdivisionMX agu = SubdivisionMX.AGU;
+        SubdivisionCode.MX agu = SubdivisionCode.MX.AGU;
         assertEquals("MX-AGU", agu.getCode());
         assertEquals("Aguascalientes", agu.getName());
         assertEquals("state", agu.getCategory());
 
-        Subdivision[] subdivisions = SubdivisionCode.MX.getSubdivisions();
+        Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.MX);
         assertNotNull(subdivisions);
         assertEquals(32, subdivisions.length); // 31 states + 1 federal entity
 
@@ -25,9 +25,17 @@ public class SubdivisionMXTest {
         assertEquals("Zacatecas", zacatecas.getName());
         assertEquals("state", zacatecas.getCategory());
 
-        Subdivision cmx = SubdivisionMX.CMX;
+        Subdivision cmx = SubdivisionCode.MX.CMX;
         assertEquals("MX-CMX", cmx.getCode());
         assertEquals("Ciudad de México", cmx.getName());
         assertEquals("federal entity", cmx.getCategory());
+    }
+
+    @Test
+    public void testFromCode() {
+        SubdivisionCode.MX agu = SubdivisionCode.MX.fromCode("MX-AGU");
+        assertEquals(SubdivisionCode.MX.AGU, agu);
+
+        assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.MX.fromCode("INVALID"));
     }
 }

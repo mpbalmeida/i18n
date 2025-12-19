@@ -7,12 +7,12 @@ public class SubdivisionBRTest {
 
     @Test
     public void testBRSubdivisions() {
-        SubdivisionBR ac = SubdivisionBR.AC;
+        SubdivisionCode.BR ac = SubdivisionCode.BR.AC;
         assertEquals("BR-AC", ac.getCode());
         assertEquals("Acre", ac.getName());
         assertEquals("state", ac.getCategory());
 
-        Subdivision[] subdivisions = SubdivisionCode.BR.getSubdivisions();
+        Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.BR);
         assertNotNull(subdivisions);
         assertEquals(27, subdivisions.length); // 26 states + 1 federal district
 
@@ -25,9 +25,17 @@ public class SubdivisionBRTest {
         assertEquals("Tocantins", tocantins.getName());
         assertEquals("state", tocantins.getCategory());
 
-        Subdivision df = SubdivisionBR.DF;
+        Subdivision df = SubdivisionCode.BR.DF;
         assertEquals("BR-DF", df.getCode());
         assertEquals("Distrito Federal", df.getName());
         assertEquals("federal district", df.getCategory());
+    }
+
+    @Test
+    public void testFromCode() {
+        SubdivisionCode.BR ac = SubdivisionCode.BR.fromCode("BR-AC");
+        assertEquals(SubdivisionCode.BR.AC, ac);
+
+        assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.BR.fromCode("INVALID"));
     }
 }

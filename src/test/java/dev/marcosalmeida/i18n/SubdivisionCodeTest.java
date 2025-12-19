@@ -7,17 +7,33 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SubdivisionCodeTest {
 
     @Test
-    public void testGetByCountryCode() {
-        SubdivisionCode us = SubdivisionCode.getByCountryCode(CountryCode.US);
+    public void testGetSubdivisions() {
+        Subdivision[] us = SubdivisionCode.getSubdivisions(CountryCode.US);
         assertNotNull(us);
-        assertEquals(SubdivisionCode.US, us);
+        assertTrue(us.length > 0);
 
-        SubdivisionCode br = SubdivisionCode.getByCountryCode(CountryCode.BR);
+        Subdivision[] br = SubdivisionCode.getSubdivisions(CountryCode.BR);
         assertNotNull(br);
-        assertEquals(SubdivisionCode.BR, br);
+        assertTrue(br.length > 0);
 
-        SubdivisionCode mx = SubdivisionCode.getByCountryCode(CountryCode.MX);
+        Subdivision[] mx = SubdivisionCode.getSubdivisions(CountryCode.MX);
         assertNotNull(mx);
-        assertEquals(SubdivisionCode.MX, mx);
+        assertTrue(mx.length > 0);
+
+        assertNull(SubdivisionCode.getSubdivisions(CountryCode.AF));
+    }
+
+    @Test
+    public void testFromCode() {
+        Subdivision al = SubdivisionCode.fromCode("US-AL");
+        assertNotNull(al);
+        assertEquals("Alabama", al.getName());
+
+        Subdivision sp = SubdivisionCode.fromCode("BR-SP");
+        assertNotNull(sp);
+        assertEquals("São Paulo", sp.getName());
+
+        assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.fromCode("INVALID"));
+        assertThrows(IllegalArgumentException.class, () -> SubdivisionCode.fromCode("US-XX"));
     }
 }

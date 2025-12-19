@@ -2,16 +2,18 @@
 
 This document outlines the rules and conventions for the ISO-3166-2 Subdivision Library.
 
-## 1. `SubdivisionCode` Enum
-- All constants in `SubdivisionCode` MUST be sorted alphabetically by their name.
-- Each constant must be linked to its corresponding `com.neovisionaries.i18n.CountryCode`.
-- Each constant must be linked to its country-specific implementation class (e.g., `SubdivisionUS.class`).
+## 1. `SubdivisionCode` Class
+- Acts as the entry point for all subdivisions.
+- Country-specific subdivisions are implemented as package-private nested enums (e.g., `SubdivisionCode.US`).
+- Nested enums MUST be named using the 2-letter ISO country code (BR, MX, US, etc.) and sorted alphabetically in the file.
+- Provides `getSubdivisions(CountryCode)` and `fromCode(String)` utility methods.
 
 ## 2. Country-Specific Subdivision Enums
-- Enums MUST implement the `Subdivision` interface.
+- MUST be package-private nested enums inside `SubdivisionCode` to encourage access via the parent class.
+- MUST implement the `Subdivision` interface.
 - Constants MUST use the shortened key from the ISO-3166-2 code (e.g., `AL` for `US-AL`).
-- Enums MUST be public to allow direct access to constants.
 - Javadoc documentation is required for each constant.
+- MUST provide a static `fromCode(String)` method.
 
 ## 3. `Subdivision` Interface
 - Provides a polymorphic way to access subdivision data:
