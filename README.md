@@ -64,3 +64,13 @@ public interface Subdivision {
 - **Encapsulated Design**: Uses an interface to provide polymorphic access while keeping specific country enums separate.
 - **`nv-i18n` Integration**: Easily find subdivisions using established `CountryCode` constants.
 - **Shortened Keys**: Enum constants use the subdivision part of the code (e.g., `PR`) for a cleaner API.
+
+## Deployment
+
+Artifacts are signed with GPG as required by Sonatype Central. To deploy, use:
+
+```bash
+mvn deploy -P deployment
+```
+
+Ensure your GPG key is configured correctly in your environment.

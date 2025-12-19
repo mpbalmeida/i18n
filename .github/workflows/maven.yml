@@ -21,3 +21,7 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: Verify Commit Message (latest)
+      run: |
+        git log -1 --pretty=format:"%s" > latest_commit_msg.txt
+        ./scripts/commit-msg.sh latest_commit_msg.txt
