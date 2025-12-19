@@ -16,6 +16,10 @@ public class SubdivisionCodeTest {
         assertNotNull(br);
         assertTrue(br.length > 0);
 
+        Subdivision[] ca = SubdivisionCode.getSubdivisions(CountryCode.CA);
+        assertNotNull(ca);
+        assertEquals(13, ca.length);
+
         Subdivision[] mx = SubdivisionCode.getSubdivisions(CountryCode.MX);
         assertNotNull(mx);
         assertTrue(mx.length > 0);
@@ -32,6 +36,10 @@ public class SubdivisionCodeTest {
         Subdivision usAl = SubdivisionCode.fromCode("US-AL");
         assertNotNull(usAl);
         assertEquals("Alabama", usAl.getName());
+
+        Subdivision caOn = SubdivisionCode.fromCode("CA-ON");
+        assertNotNull(caOn);
+        assertEquals("Ontario", caOn.getName());
 
         Subdivision brSp = SubdivisionCode.fromCode("BR-SP");
         assertNotNull(brSp);
@@ -83,7 +91,8 @@ public class SubdivisionCodeTest {
         assertEquals(107, allStates.length);
 
         Subdivision[] allProvinces = SubdivisionCode.getProvinces();
-        assertEquals(4, allProvinces.length);
+        // 10 (CA) + 4 (IE) = 14
+        assertEquals(14, allProvinces.length);
 
         Subdivision[] allCounties = SubdivisionCode.getCounties();
         assertEquals(26, allCounties.length);

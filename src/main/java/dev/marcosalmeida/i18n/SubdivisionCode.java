@@ -215,6 +215,122 @@ public final class SubdivisionCode {
     }
 
     /**
+     * ISO-3166-2 subdivisions for Canada.
+     */
+    public enum CA implements Subdivision {
+        /** Alberta (Province) */
+        AB("CA-AB", "Alberta", "Province"),
+        /** British Columbia (Province) */
+        BC("CA-BC", "British Columbia", "Province"),
+        /** Manitoba (Province) */
+        MB("CA-MB", "Manitoba", "Province"),
+        /** New Brunswick (Province) */
+        NB("CA-NB", "New Brunswick", "Province"),
+        /** Newfoundland and Labrador (Province) */
+        NL("CA-NL", "Newfoundland and Labrador", "Province"),
+        /** Nova Scotia (Province) */
+        NS("CA-NS", "Nova Scotia", "Province"),
+        /** Northwest Territories (Territory) */
+        NT("CA-NT", "Northwest Territories", "Territory"),
+        /** Nunavut (Territory) */
+        NU("CA-NU", "Nunavut", "Territory"),
+        /** Ontario (Province) */
+        ON("CA-ON", "Ontario", "Province"),
+        /** Prince Edward Island (Province) */
+        PE("CA-PE", "Prince Edward Island", "Province"),
+        /** Quebec (Province) */
+        QC("CA-QC", "Quebec", "Province"),
+        /** Saskatchewan (Province) */
+        SK("CA-SK", "Saskatchewan", "Province"),
+        /** Yukon (Territory) */
+        YT("CA-YT", "Yukon", "Territory");
+
+        private final String code;
+        private final String name;
+        private final String category;
+
+        CA(String code, String name, String category) {
+            this.code = code;
+            this.name = name;
+            this.category = category;
+        }
+
+        @Override
+        public String getCode() {
+            return code;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getCategory() {
+            return category;
+        }
+
+        @Override
+        public String getSubdivisionCode() {
+            return name();
+        }
+
+        @Override
+        public Optional<Subdivision> getParent() {
+            return Optional.empty();
+        }
+
+        /**
+         * Returns the subdivision for the given code.
+         *
+         * @param code the ISO-3166-2 code or subdivision code part.
+         * @return the subdivision.
+         * @throws IllegalArgumentException if no subdivision is found for the given code.
+         */
+        public static CA fromCode(String code) {
+            return SubdivisionCode.fromCode(values(), code);
+        }
+
+        /**
+         * Returns the subdivision for the given name.
+         *
+         * @param name the subdivision name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> fromName(String name) {
+            return SubdivisionCode.fromName(values(), name);
+        }
+
+        /**
+         * Returns the subdivision for the given value, searching by code or name.
+         *
+         * @param value the code or name.
+         * @return an Optional containing the subdivision if found, or empty otherwise.
+         */
+        public static Optional<Subdivision> find(String value) {
+            return SubdivisionCode.find(values(), value);
+        }
+
+        /**
+         * Returns the Canadian provinces.
+         *
+         * @return an array of provinces.
+         */
+        public static Subdivision[] getProvinces() {
+            return SubdivisionCode.getByCategory(values(), "Province");
+        }
+
+        /**
+         * Returns the Canadian territories.
+         *
+         * @return an array of territories.
+         */
+        public static Subdivision[] getTerritories() {
+            return SubdivisionCode.getByCategory(values(), "Territory");
+        }
+    }
+
+    /**
      * ISO-3166-2 subdivisions for Ireland.
      */
     public enum IE implements Subdivision {
@@ -754,7 +870,7 @@ public final class SubdivisionCode {
     }
 
     private static Subdivision[] allValues() {
-        return Stream.of(BR.values(), IE.values(), MX.values(), US.values())
+        return Stream.of(BR.values(), CA.values(), IE.values(), MX.values(), US.values())
                 .flatMap(Arrays::stream)
                 .toArray(Subdivision[]::new);
     }
@@ -769,6 +885,7 @@ public final class SubdivisionCode {
         if (code == null) return null;
         return switch (code) {
             case BR -> BR.values();
+            case CA -> CA.values();
             case IE -> IE.values();
             case MX -> MX.values();
             case US -> US.values();
@@ -825,7 +942,10 @@ public final class SubdivisionCode {
      * @return an array of provinces.
      */
     public static Subdivision[] getProvinces() {
-        return IE.getProvinces();
+        return Stream.concat(
+                Arrays.stream(CA.getProvinces()),
+                Arrays.stream(IE.getProvinces())
+        ).toArray(Subdivision[]::new);
     }
 
     /**
