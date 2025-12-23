@@ -47,27 +47,27 @@ public class SubdivisionCodeTest {
     public void testFromCode() {
         Subdivision auNsw = SubdivisionCode.fromCode("AU-NSW");
         assertNotNull(auNsw);
-        assertEquals("New South Wales", auNsw.getName());
+        assertEquals("New South Wales", auNsw.getSubdivisionName());
 
         Subdivision usAl = SubdivisionCode.fromCode("US-AL");
         assertNotNull(usAl);
-        assertEquals("Alabama", usAl.getName());
+        assertEquals("Alabama", usAl.getSubdivisionName());
 
         Subdivision it25 = SubdivisionCode.fromCode("IT-25");
         assertNotNull(it25);
-        assertEquals("Lombardia", it25.getName());
+        assertEquals("Lombardia", it25.getSubdivisionName());
 
         Subdivision caOn = SubdivisionCode.fromCode("CA-ON");
         assertNotNull(caOn);
-        assertEquals("Ontario", caOn.getName());
+        assertEquals("Ontario", caOn.getSubdivisionName());
 
         Subdivision brSp = SubdivisionCode.fromCode("BR-SP");
         assertNotNull(brSp);
-        assertEquals("São Paulo", brSp.getName());
+        assertEquals("São Paulo", brSp.getSubdivisionName());
 
         Subdivision ieD = SubdivisionCode.fromCode("IE-D");
         assertNotNull(ieD);
-        assertEquals("Dublin", ieD.getName());
+        assertEquals("Dublin", ieD.getSubdivisionName());
 
         // Test lookup by subdivision part (returns the first match, which is BR-AL for "AL")
         Subdivision alShort = SubdivisionCode.fromCode("AL");

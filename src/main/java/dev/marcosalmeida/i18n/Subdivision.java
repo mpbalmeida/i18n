@@ -18,7 +18,7 @@ public interface Subdivision {
      *
      * @return the subdivision name.
      */
-    String getName();
+    String getSubdivisionName();
 
     /**
      * Returns the category of the subdivision (e.g., "State", "District", "Outlying area").
@@ -32,7 +32,13 @@ public interface Subdivision {
      *
      * @return the subdivision code part.
      */
-    String getSubdivisionCode();
+    default String getSubdivisionCode() {
+        if (this instanceof Enum<?> e) {
+            return e.name();
+        }
+
+        return getCode();
+    }
 
     /**
      * Returns the parent subdivision, if any.

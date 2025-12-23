@@ -9,7 +9,7 @@ public class SubdivisionAUTest {
     public void testAUSubdivisions() {
         SubdivisionCode.AU nsw = SubdivisionCode.AU.NSW;
         assertEquals("AU-NSW", nsw.getCode());
-        assertEquals("New South Wales", nsw.getName());
+        assertEquals("New South Wales", nsw.getSubdivisionName());
         assertEquals("state", nsw.getCategory());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.AU);
@@ -18,12 +18,12 @@ public class SubdivisionAUTest {
 
         Subdivision act = subdivisions[0];
         assertEquals("AU-ACT", act.getCode());
-        assertEquals("Australian Capital Territory", act.getName());
+        assertEquals("Australian Capital Territory", act.getSubdivisionName());
         assertEquals("territory", act.getCategory());
 
         Subdivision wa = subdivisions[7];
         assertEquals("AU-WA", wa.getCode());
-        assertEquals("Western Australia", wa.getName());
+        assertEquals("Western Australia", wa.getSubdivisionName());
         assertEquals("state", wa.getCategory());
     }
 

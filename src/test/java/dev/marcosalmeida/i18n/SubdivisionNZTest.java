@@ -9,7 +9,7 @@ public class SubdivisionNZTest {
     public void testNZSubdivisions() {
         SubdivisionCode.NZ auk = SubdivisionCode.NZ.AUK;
         assertEquals("NZ-AUK", auk.getCode());
-        assertEquals("Auckland", auk.getName());
+        assertEquals("Auckland", auk.getSubdivisionName());
         assertEquals("region", auk.getCategory());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.NZ);
@@ -18,16 +18,16 @@ public class SubdivisionNZTest {
 
         Subdivision auckland = subdivisions[0];
         assertEquals("NZ-AUK", auckland.getCode());
-        assertEquals("Auckland", auckland.getName());
+        assertEquals("Auckland", auckland.getSubdivisionName());
 
         Subdivision westCoast = subdivisions[16];
         assertEquals("NZ-WTC", westCoast.getCode());
-        assertEquals("West Coast", westCoast.getName());
+        assertEquals("West Coast", westCoast.getSubdivisionName());
         assertEquals("region", westCoast.getCategory());
 
         Subdivision cit = SubdivisionCode.NZ.CIT;
         assertEquals("NZ-CIT", cit.getCode());
-        assertEquals("Chatham Islands Territory", cit.getName());
+        assertEquals("Chatham Islands Territory", cit.getSubdivisionName());
         assertEquals("special island authority", cit.getCategory());
     }
 

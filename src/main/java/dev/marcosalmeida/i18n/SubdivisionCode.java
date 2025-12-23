@@ -35,7 +35,7 @@ public final class SubdivisionCode {
         }
         String normalized = name.trim();
         return Arrays.stream(values)
-                .filter(s -> s.getName().equalsIgnoreCase(normalized))
+                .filter(s -> s.getSubdivisionName().equalsIgnoreCase(normalized))
                 .map(Subdivision.class::cast)
                 .findFirst();
     }
@@ -107,23 +107,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
         }
 
         /**
@@ -251,23 +241,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
         }
 
         /**
@@ -367,23 +347,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
         }
 
         /**
@@ -519,18 +489,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
         }
 
         @Override
@@ -659,7 +624,7 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
@@ -670,12 +635,8 @@ public final class SubdivisionCode {
 
         @Override
         public String getSubdivisionCode() {
-            return code.substring(code.indexOf('-') + 1);
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
+            String name = name();
+            return name.substring(name.lastIndexOf("_") + 1);
         }
 
         /**
@@ -813,23 +774,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
         }
 
         /**
@@ -947,23 +898,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
         }
 
         /**
@@ -1151,23 +1092,13 @@ public final class SubdivisionCode {
         }
 
         @Override
-        public String getName() {
+        public String getSubdivisionName() {
             return name;
         }
 
         @Override
         public String getCategory() {
             return category;
-        }
-
-        @Override
-        public String getSubdivisionCode() {
-            return name();
-        }
-
-        @Override
-        public Optional<Subdivision> getParent() {
-            return Optional.empty();
         }
 
         /**
@@ -1293,13 +1224,7 @@ public final class SubdivisionCode {
      * @return an array of states.
      */
     public static Subdivision[] getStates() {
-        return Stream.concat(
-                Arrays.stream(AU.getStates()),
-                Stream.concat(
-                        Arrays.stream(BR.getStates()),
-                        Stream.concat(Arrays.stream(MX.getStates()), Arrays.stream(US.getStates()))
-                )
-        ).toArray(Subdivision[]::new);
+        return getByCategory(allValues(), "state");
     }
 
     /**
@@ -1308,10 +1233,7 @@ public final class SubdivisionCode {
      * @return an array of regions.
      */
     public static Subdivision[] getRegions() {
-        return Stream.concat(
-                Arrays.stream(IT.getRegions()),
-                Arrays.stream(NZ.getRegions())
-        ).toArray(Subdivision[]::new);
+        return getByCategory(allValues(), "region");
     }
 
     /**
@@ -1320,10 +1242,7 @@ public final class SubdivisionCode {
      * @return an array of provinces.
      */
     public static Subdivision[] getProvinces() {
-        return Stream.concat(
-                Arrays.stream(CA.getProvinces()),
-                Arrays.stream(IE.getProvinces())
-        ).toArray(Subdivision[]::new);
+        return getByCategory(allValues(), "province");
     }
 
     /**
@@ -1332,7 +1251,7 @@ public final class SubdivisionCode {
      * @return an array of counties.
      */
     public static Subdivision[] getCounties() {
-        return IE.getCounties();
+        return getByCategory(allValues(), "county");
     }
 
     /**

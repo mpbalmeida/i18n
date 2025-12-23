@@ -9,7 +9,7 @@ public class SubdivisionCATest {
     public void testCASubdivisions() {
         SubdivisionCode.CA ab = SubdivisionCode.CA.AB;
         assertEquals("CA-AB", ab.getCode());
-        assertEquals("Alberta", ab.getName());
+        assertEquals("Alberta", ab.getSubdivisionName());
         assertEquals("Province", ab.getCategory());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.CA);
@@ -18,16 +18,16 @@ public class SubdivisionCATest {
 
         Subdivision alberta = subdivisions[0];
         assertEquals("CA-AB", alberta.getCode());
-        assertEquals("Alberta", alberta.getName());
+        assertEquals("Alberta", alberta.getSubdivisionName());
 
         Subdivision yukon = subdivisions[12];
         assertEquals("CA-YT", yukon.getCode());
-        assertEquals("Yukon", yukon.getName());
+        assertEquals("Yukon", yukon.getSubdivisionName());
         assertEquals("Territory", yukon.getCategory());
 
         Subdivision nt = SubdivisionCode.CA.NT;
         assertEquals("CA-NT", nt.getCode());
-        assertEquals("Northwest Territories", nt.getName());
+        assertEquals("Northwest Territories", nt.getSubdivisionName());
         assertEquals("Territory", nt.getCategory());
     }
 

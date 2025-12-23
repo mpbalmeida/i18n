@@ -9,7 +9,7 @@ public class SubdivisionITTest {
     public void testITSubdivisions() {
         SubdivisionCode.IT lombardia = SubdivisionCode.IT.IT_25;
         assertEquals("IT-25", lombardia.getCode());
-        assertEquals("Lombardia", lombardia.getName());
+        assertEquals("Lombardia", lombardia.getSubdivisionName());
         assertEquals("region", lombardia.getCategory());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.IT);
@@ -18,16 +18,16 @@ public class SubdivisionITTest {
 
         Subdivision abruzzo = subdivisions[0];
         assertEquals("IT-65", abruzzo.getCode());
-        assertEquals("Abruzzo", abruzzo.getName());
+        assertEquals("Abruzzo", abruzzo.getSubdivisionName());
 
         Subdivision veneto = subdivisions[19];
         assertEquals("IT-34", veneto.getCode());
-        assertEquals("Veneto", veneto.getName());
+        assertEquals("Veneto", veneto.getSubdivisionName());
         assertEquals("region", veneto.getCategory());
 
         Subdivision sardegna = SubdivisionCode.IT.IT_88;
         assertEquals("IT-88", sardegna.getCode());
-        assertEquals("Sardegna", sardegna.getName());
+        assertEquals("Sardegna", sardegna.getSubdivisionName());
         assertEquals("autonomous region", sardegna.getCategory());
     }
 

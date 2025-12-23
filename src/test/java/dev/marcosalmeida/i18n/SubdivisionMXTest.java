@@ -9,7 +9,7 @@ public class SubdivisionMXTest {
     public void testMXSubdivisions() {
         SubdivisionCode.MX agu = SubdivisionCode.MX.AGU;
         assertEquals("MX-AGU", agu.getCode());
-        assertEquals("Aguascalientes", agu.getName());
+        assertEquals("Aguascalientes", agu.getSubdivisionName());
         assertEquals("state", agu.getCategory());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.MX);
@@ -18,16 +18,16 @@ public class SubdivisionMXTest {
 
         Subdivision aguascalientes = subdivisions[0];
         assertEquals("MX-AGU", aguascalientes.getCode());
-        assertEquals("Aguascalientes", aguascalientes.getName());
+        assertEquals("Aguascalientes", aguascalientes.getSubdivisionName());
 
         Subdivision zacatecas = subdivisions[31];
         assertEquals("MX-ZAC", zacatecas.getCode());
-        assertEquals("Zacatecas", zacatecas.getName());
+        assertEquals("Zacatecas", zacatecas.getSubdivisionName());
         assertEquals("state", zacatecas.getCategory());
 
         Subdivision cmx = SubdivisionCode.MX.CMX;
         assertEquals("MX-CMX", cmx.getCode());
-        assertEquals("Ciudad de México", cmx.getName());
+        assertEquals("Ciudad de México", cmx.getSubdivisionName());
         assertEquals("federal entity", cmx.getCategory());
     }
 

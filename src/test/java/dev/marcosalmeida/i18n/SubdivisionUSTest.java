@@ -10,7 +10,7 @@ public class SubdivisionUSTest {
         // Direct access to the enum constant
         SubdivisionCode.US al = SubdivisionCode.US.AL;
         assertEquals("US-AL", al.getCode());
-        assertEquals("Alabama", al.getName());
+        assertEquals("Alabama", al.getSubdivisionName());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.US);
         assertNotNull(subdivisions);
@@ -18,12 +18,12 @@ public class SubdivisionUSTest {
 
         Subdivision alabama = subdivisions[0];
         assertEquals("US-AL", alabama.getCode());
-        assertEquals("Alabama", alabama.getName());
+        assertEquals("Alabama", alabama.getSubdivisionName());
         assertEquals("State", alabama.getCategory());
 
         Subdivision virginIslands = subdivisions[56];
         assertEquals("US-VI", virginIslands.getCode());
-        assertEquals("Virgin Islands, U.S.", virginIslands.getName());
+        assertEquals("Virgin Islands, U.S.", virginIslands.getSubdivisionName());
         assertEquals("Outlying area", virginIslands.getCategory());
     }
 

@@ -9,7 +9,7 @@ public class SubdivisionIETest {
     public void testIESubdivisions() {
         SubdivisionCode.IE c = SubdivisionCode.IE.C;
         assertEquals("IE-C", c.getCode());
-        assertEquals("Connaught", c.getName());
+        assertEquals("Connaught", c.getSubdivisionName());
         assertEquals("province", c.getCategory());
 
         Subdivision[] subdivisions = SubdivisionCode.getSubdivisions(com.neovisionaries.i18n.CountryCode.IE);
@@ -18,16 +18,16 @@ public class SubdivisionIETest {
 
         Subdivision connaught = subdivisions[0];
         assertEquals("IE-C", connaught.getCode());
-        assertEquals("Connaught", connaught.getName());
+        assertEquals("Connaught", connaught.getSubdivisionName());
 
         Subdivision wicklow = subdivisions[29];
         assertEquals("IE-WW", wicklow.getCode());
-        assertEquals("Wicklow", wicklow.getName());
+        assertEquals("Wicklow", wicklow.getSubdivisionName());
         assertEquals("county", wicklow.getCategory());
 
         Subdivision dublin = SubdivisionCode.IE.D;
         assertEquals("IE-D", dublin.getCode());
-        assertEquals("Dublin", dublin.getName());
+        assertEquals("Dublin", dublin.getSubdivisionName());
         assertEquals("county", dublin.getCategory());
     }
 
